@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Html5QrcodePlugin from "./Html5QrcodePlugin";
+import { Button, Modal } from "react-bootstrap";
+import { Html5QrcodeScanner, Html5Qrcode } from "html5-qrcode";
 
-function App() {
+const App = () => {
+  const [isShow, setShow] = useState(false);
+
+  const handleClose = () => {
+    setShow(false);
+  
+  };
+
+  const handleShow = () => setShow(true);
+
+  const onNewScanResult = (decodedText, decodedResult) => {
+    console.log(decodedText, decodedResult);
+    // Handle the result here.
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Button variant="primary" onClick={()=>handleShow()}>
+        Launch demo modal
+      </Button>
+
+      <Modal show={isShow} onHide={handleClose} animation={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Scanner</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+           {console.log("ghvghvhj")}
+          <Html5QrcodePlugin
+            fps={10}
+            qrbox={250}
+            disableFlip={false}
+            qrCodeSuccessCallback={onNewScanResult}
+            style={{ width: "100px" }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
-}
+};
 
 export default App;
